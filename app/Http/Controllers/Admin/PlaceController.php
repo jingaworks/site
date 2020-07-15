@@ -20,7 +20,7 @@ class PlaceController extends Controller
         abort_if(Gate::denies('place_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Place::orderBy('denloc')->with(['judet'])->select(sprintf('%s.*', (new Place)->table));
+            $query = Place::where('niv', 3)->orderBy('denloc')->with(['judet'])->select(sprintf('%s.*', (new Place)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');

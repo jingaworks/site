@@ -36,14 +36,6 @@ class StoreProductRequest extends FormRequest
             'price_ends'   => [
                 'required',
             ],
-            'region_id'    => [
-                'required',
-                'integer',
-            ],
-            'place_id'     => [
-                'required',
-                'integer',
-            ],
         ];
     }
 }

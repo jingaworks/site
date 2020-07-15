@@ -101,7 +101,7 @@ class User extends Authenticatable
 
     public function getCanPostAttribute()
     {
-        return $this->products()->count() >= 5;
+        return $this->products()->count() >= 10;
     }
 
     public function roles()

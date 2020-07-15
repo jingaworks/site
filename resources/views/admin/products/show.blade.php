@@ -28,15 +28,7 @@
                             {{ trans('cruds.product.fields.category') }}
                         </th>
                         <td>
-                            {{ $product->category->name ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.product.fields.subcategory') }}
-                        </th>
-                        <td>
-                            {{ $product->subcategory->name ?? '' }}
+                            {{ $product->category->name ?? '' }} / {{ $product->subcategory->name ?? '' }}
                         </td>
                     </tr>
                     <tr>

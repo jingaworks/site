@@ -99,6 +99,14 @@
                             {{ $atestat->created_by->name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.atestat.fields.phone') }}
+                        </th>
+                        <td>
+                            {{ $atestat->created_by->phone ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

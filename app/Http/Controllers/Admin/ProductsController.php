@@ -84,21 +84,20 @@ class ProductsController extends Controller
     public function create()
     {
         abort_if(Gate::denies('product_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-
+        
         $categories = Category::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
+        
         $subcategories = Subcategory::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $regions = Region::all()->pluck('denj', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $places = Place::where(['niv'=> 3])->whereIn('tip', [9,10,11])->get()->pluck('denloc', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.products.create', compact('categories', 'subcategories', 'regions', 'places'));
+        
+        return view('admin.products.create', compact('categories', 'subcategories'));
     }
-
+    
     public function store(StoreProductRequest $request)
     {
+        abort_if(Gate::denies('product_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $address = auth()->user()->createdByAtestats()->first();
+        $request['region_id'] = $address->region_id;
+        $request['place_id'] = $address->place_id;
         $product = Product::create($request->all());
 
         foreach ($request->input('images', []) as $file) {
@@ -120,17 +119,16 @@ class ProductsController extends Controller
 
         $subcategories = Subcategory::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $regions = Region::all()->pluck('denj', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $product->load('category', 'subcategory', 'created_by');
 
-        $places = Place::all()->pluck('denloc', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $product->load('category', 'subcategory', 'region', 'place', 'created_by');
-
-        return view('admin.products.edit', compact('categories', 'subcategories', 'regions', 'places', 'product'));
+        return view('admin.products.edit', compact('categories', 'subcategories', 'product'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)
     {
+        $address = auth()->user()->createdByAtestats()->first();
+        $request['region_id'] = $address->region_id;
+        $request['place_id'] = $address->place_id;
         $product->update($request->all());
 
         if (count($product->images) > 0) {

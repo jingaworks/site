@@ -77,6 +77,8 @@ return [
             'id_helper'         => '',
             'name'              => 'Name',
             'name_helper'       => '',
+            'phone'              => 'Telefon',
+            'phone_helper'       => '',
             'address'           => 'Address',
             'address_helper'    => '',
             'image'             => 'Image',
