@@ -88,7 +88,7 @@ class AtestatController extends Controller
 
         $regions = Region::all()->pluck('denj', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $places = Place::where('jud', 1)->where('tip', 3)->orderBy('denloc')->get()->pluck('denloc', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $places = Place::where('region_id', 1)->where('tip', 3)->orderBy('denloc')->get()->pluck('denloc', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.atestats.create', compact('series', 'regions', 'places'));
     }

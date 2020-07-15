@@ -12,7 +12,6 @@ class CreatePlacesTable extends Migration
             $table->increments('id');
             $table->string('denloc');
             $table->string('codp');
-            $table->unsignedInteger('jud');
             $table->string('sirsup');
             $table->unsignedInteger('tip');
             $table->unsignedInteger('niv');

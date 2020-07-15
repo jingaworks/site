@@ -9,8 +9,8 @@ class AddRelationshipFieldsToPlacesTable extends Migration
     public function up()
     {
         Schema::table('places', function (Blueprint $table) {
-            $table->unsignedInteger('jud_id')->nullable();
-            $table->foreign('jud_id', 'jud_fk_1830321')->references('id')->on('regions');
+            $table->unsignedInteger('region_id')->nullable();
+            $table->foreign('region_id')->references('id')->on('regions');
         });
     }
 }

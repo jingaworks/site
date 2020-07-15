@@ -19,7 +19,7 @@ class Place extends Model
     ];
 
     protected $fillable = [
-        'jud_id',
+        'region_id',
         'denloc',
         'created_at',
         'updated_at',
@@ -33,6 +33,6 @@ class Place extends Model
 
     public function judet()
     {
-        return $this->belongsTo(Region::class, 'jud_id');
+        return $this->belongsTo(Region::class, 'region_id');
     }
 }
