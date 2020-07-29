@@ -47,7 +47,6 @@ class PlaceController extends Controller
             $table->addColumn('judet_denj', function ($row) {
                 return $row->judet ? $row->judet->denj : '';
             });
-
             $table->editColumn('denloc', function ($row) {
                 return $row->denloc ? $row->denloc : "";
             });
@@ -110,6 +109,15 @@ class PlaceController extends Controller
         $place->delete();
 
         return back();
+    }
+
+    public function ajax_call(Request $request)
+    {
+        // dd($request->all());
+        $places = Place::where('region_id', $request['cat_id'])->where('niv', 3)->orderBy('denloc')->get();
+        $serie = Region::findOrFail($request['cat_id']);
+
+        return ['places' => $places, 'serie' => $serie];
     }
 
     public function massDestroy(MassDestroyPlaceRequest $request)

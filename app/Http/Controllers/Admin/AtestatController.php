@@ -86,11 +86,9 @@ class AtestatController extends Controller
 
         $series = Region::orderBy('mnemonic')->get()->pluck('mnemonic', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $regions = Region::all()->pluck('denj', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $regions = Region::orderBy('denj')->get()->pluck('denj', 'id')->prepend(trans('global.pleaseSelect'), '', '');
 
-        $places = Place::where('region_id', 1)->where('niv', 3)->orderBy('denloc')->get()->pluck('denloc', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.atestats.create', compact('series', 'regions', 'places'));
+        return view('admin.atestats.create', compact('series', 'regions'));
     }
 
     public function store(StoreAtestatRequest $request)

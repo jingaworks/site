@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -25,9 +26,15 @@ class HomeController extends Controller
     {
         return view('home');
     }
-    public function test()
+    public function test(Request $request)
     {
-        $user = auth()->user();
-        return view('welcome', compact('user'));
+        if($request['subcat']) {
+            $products = Product::where('subcategory_id', $request['subcat'])
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+        } else {
+            $products = Product::orderBy('created_at', 'desc')->get();
+        }
+        return view('welcome', compact('products'));
     }
 }

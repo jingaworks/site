@@ -55,38 +55,53 @@ class Product extends Model implements HasMedia
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id')->select(['id', 'name']);
     }
 
     public function subcategory()
     {
-        return $this->belongsTo(Subcategory::class, 'subcategory_id');
+        return $this->belongsTo(Subcategory::class, 'subcategory_id')->select(['id', 'name']);
     }
 
     public function getImagesAttribute()
     {
         $files = $this->getMedia('images');
+        
         $files->each(function ($item) {
+            unset($item->mime_type);
+            unset($item->collection_name);
+            unset($item->created_at);
+            unset($item->updated_at);
+            unset($item->manipulations);
+            unset($item->order_column);
+            unset($item->custom_properties);
+            unset($item->size);
+            unset($item->model_id);
+            unset($item->responsive_images);
             $item->url       = $item->getUrl();
             $item->thumbnail = $item->getUrl('thumb');
-            $item->preview   = $item->getUrl('preview');
-        });
+            // $item->preview   = $item->getUrl('preview');
+            unset($item->name);
+            unset($item->file_name);
+            unset($item->disk);
+            unset($item->model_type);
 
+        });
         return $files;
     }
 
     public function region()
     {
-        return $this->belongsTo(Region::class, 'region_id');
+        return $this->belongsTo(Region::class, 'region_id')->select(['id', 'denj']);
     }
 
     public function place()
     {
-        return $this->belongsTo(Place::class, 'place_id');
+        return $this->belongsTo(Place::class, 'place_id')->select(['id', 'denloc', 'region_id']);
     }
 
     public function created_by()
     {
-        return $this->belongsTo(User::class, 'created_by_id');
+        return $this->belongsTo(User::class, 'created_by_id')->select(['id', 'name', 'email', 'phone']);
     }
 }

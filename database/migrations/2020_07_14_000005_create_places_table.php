@@ -14,6 +14,7 @@ class CreatePlacesTable extends Migration
             $table->string('codp');
             $table->string('sirsup');
             $table->unsignedInteger('tip');
+            $table->unsignedInteger('zona');
             $table->unsignedInteger('niv');
             $table->unsignedInteger('med');
             $table->unsignedInteger('regiune');

@@ -53,11 +53,6 @@ class Atestat extends Model implements HasMedia
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
-    public function serie()
-    {
-        return $this->belongsTo(Region::class, 'serie_id');
-    }
-
     public function getValidYearAttribute($value)
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
@@ -68,14 +63,19 @@ class Atestat extends Model implements HasMedia
         $this->attributes['valid_year'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
+    public function serie()
+    {
+        return $this->belongsTo(Region::class, 'serie_id')->select(['id', 'mnemonic']);
+    }
+
     public function region()
     {
-        return $this->belongsTo(Region::class, 'region_id');
+        return $this->belongsTo(Region::class, 'region_id')->select(['id', 'denj']);
     }
 
     public function place()
     {
-        return $this->belongsTo(Place::class, 'place_id');
+        return $this->belongsTo(Place::class, 'place_id')->select(['id', 'denloc']);
     }
 
     public function getImageAttribute()
@@ -93,6 +93,11 @@ class Atestat extends Model implements HasMedia
 
     public function created_by()
     {
-        return $this->belongsTo(User::class, 'created_by_id');
+        return $this->belongsTo(User::class, 'created_by_id')->select(['id', 'name', 'email', 'phone']);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'created_by_id', 'created_by_id')->select(['id', 'slug', 'name', 'description', 'price_starts', 'price_ends']);
     }
 }

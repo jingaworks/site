@@ -13,7 +13,7 @@ class CreateAtestatsTable extends Migration
             $table->string('name');
             $table->longText('address');
             $table->string('number');
-            $table->date('valid_year');
+            $table->date('valid_year')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

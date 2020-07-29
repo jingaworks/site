@@ -24,7 +24,8 @@ class ProductsController extends Controller
 
     public function index(Request $request)
     {
-        abort_if($canPost = auth()->user()->canPost || Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if($canPost = auth()->user()->canPost || Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
             $query = Product::with(['category', 'subcategory', 'region', 'place', 'created_by'])->select(sprintf('%s.*', (new Product)->table));

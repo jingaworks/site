@@ -9,6 +9,45 @@
     <div class="card-body">
         <form method="POST" action="{{ route("admin.atestats.store") }}" enctype="multipart/form-data">
             @csrf
+            
+            <div class="form-group">
+                <label class="required" for="region_id">{{ trans('cruds.atestat.fields.region') }}</label>
+                <select class="form-control select2 {{ $errors->has('region') ? 'is-invalid' : '' }}" name="region_id" id="region_id" required>
+                    @foreach($regions as $id => $region )
+                        <option data-auto="{{ $region }}" value="{{ $id }}" {{ old('region_id') == $id ? 'selected' : '' }}>{{ $region }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('region'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('region') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.atestat.fields.region_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="place_id">{{ trans('cruds.atestat.fields.place') }}</label>
+                <select class="form-control select2 {{ $errors->has('place') ? 'is-invalid' : '' }}" name="place_id" id="place_id" required>
+                    
+                </select>
+                @if($errors->has('place'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('place') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.atestat.fields.place_helper') }}</span>
+            </div>
+
+            <div class="form-group">
+                <label class="required" for="address">{{ trans('cruds.atestat.fields.address') }}</label>
+                <textarea class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" name="address" id="address" required>{{ old('address') }}</textarea>
+                @if($errors->has('address'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('address') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.atestat.fields.address_helper') }}</span>
+            </div>
+            
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.atestat.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
@@ -19,12 +58,10 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.atestat.fields.name_helper') }}</span>
             </div>
+
             <div class="form-group">
-                <label class="required" for="serie_id">{{ trans('cruds.atestat.fields.serie') }}</label>
+                <label for="serie_id">{{ trans('cruds.atestat.fields.serie') }}</label>
                 <select class="form-control select2 {{ $errors->has('serie') ? 'is-invalid' : '' }}" name="serie_id" id="serie_id" required>
-                    @foreach($series as $id => $serie)
-                        <option value="{{ $id }}" {{ old('serie_id') == $id ? 'selected' : '' }}>{{ $serie }}</option>
-                    @endforeach
                 </select>
                 @if($errors->has('serie'))
                     <div class="invalid-feedback">
@@ -53,44 +90,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.atestat.fields.valid_year_helper') }}</span>
             </div>
-            <div class="form-group">
-                <label class="required" for="region_id">{{ trans('cruds.atestat.fields.region') }}</label>
-                <select class="form-control select2 {{ $errors->has('region') ? 'is-invalid' : '' }}" name="region_id" id="region_id" required>
-                    @foreach($regions as $id => $region)
-                        <option value="{{ $id }}" {{ old('region_id') == $id ? 'selected' : '' }}>{{ $region }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('region'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('region') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.atestat.fields.region_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="place_id">{{ trans('cruds.atestat.fields.place') }}</label>
-                <select class="form-control select2 {{ $errors->has('place') ? 'is-invalid' : '' }}" name="place_id" id="place_id" required>
-                    @foreach($places as $id => $place)
-                        <option value="{{ $id }}" {{ old('place_id') == $id ? 'selected' : '' }}>{{ $place }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('place'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('place') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.atestat.fields.place_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="address">{{ trans('cruds.atestat.fields.address') }}</label>
-                <textarea class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" name="address" id="address" required>{{ old('address') }}</textarea>
-                @if($errors->has('address'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('address') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.atestat.fields.address_helper') }}</span>
-            </div>
+
             <div class="form-group">
                 <label class="required" for="image">{{ trans('cruds.atestat.fields.image') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">
@@ -170,4 +170,44 @@
     }
 }
 </script>
+<script type="text/javascript">
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $(document).ready(function () {
+
+                $('#region_id').on('change',function(e) {
+                 
+                 var cat_id = e.target.value;
+
+                 $.ajax({
+                       
+                       url:"{{ route('admin.places.get_ajax') }}",
+                       type:"POST",
+                       data: {
+                           cat_id: cat_id
+                        },
+                      
+                       success:function (data) {
+
+                        $('#serie_id').empty();
+                        $('#serie_id').append('<option value="'+data.serie.id+'">'+data.serie.mnemonic+'</option>');
+
+                        $('#place_id').empty();
+                        $('#place_id').append('<option>{{trans('global.pleaseSelect')}}</option>');
+
+                        $.each(data.places,function(index,place){
+                            
+                            $('#place_id').append('<option value="'+place.id+'">'+place.denloc+'</option>');
+                        })
+
+                       }
+                   })
+                });
+
+            });
+        </script>
 @endsection

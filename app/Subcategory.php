@@ -52,11 +52,25 @@ class Subcategory extends Model implements HasMedia
     public function getImageAttribute()
     {
         $file = $this->getMedia('image')->last();
-
+        
         if ($file) {
+            unset($file->mime_type);
+            unset($file->collection_name);
+            unset($file->created_at);
+            unset($file->updated_at);
+            unset($file->manipulations);
+            unset($file->order_column);
+            unset($file->custom_properties);
+            unset($file->size);
+            unset($file->model_id);
+            unset($file->responsive_images);
             $file->url       = $file->getUrl();
             $file->thumbnail = $file->getUrl('thumb');
-            $file->preview   = $file->getUrl('preview');
+            // $file->preview   = $file->getUrl('preview');
+            unset($file->name);
+            unset($file->file_name);
+            unset($file->disk);
+            unset($file->model_type);
         }
 
         return $file;

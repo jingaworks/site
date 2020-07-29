@@ -12,9 +12,9 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('slug')->nullable();
             $table->string('name');
-            $table->longText('description');
-            $table->decimal('price_starts', 15, 2);
-            $table->decimal('price_ends', 15, 2);
+            $table->longText('description')->nullable();
+            $table->string('price_starts')->nullable();
+            $table->string('price_ends')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

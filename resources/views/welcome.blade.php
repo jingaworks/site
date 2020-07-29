@@ -80,8 +80,10 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    {{ $user->canPost() }}
+                <div class="row">
+                    @foreach($products as $product)
+                        <p>{{ $product->name }}</p>
+                    @endforeach
                 </div>
 
                 <div class="links">

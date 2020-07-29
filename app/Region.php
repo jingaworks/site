@@ -30,4 +30,13 @@ class Region extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    public function places()
+    {
+        return $this->hasMany(Place::class, 'region_id', 'id')
+        ->whereNotIn('tip', [40, 23])
+        ->whereNotIn('codp', [0])
+        ->orderBy('denloc')
+        ->select(['id', 'denloc', 'region_id']);
+    }
 }

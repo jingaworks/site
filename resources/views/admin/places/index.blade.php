@@ -85,15 +85,15 @@
     aaSorting: [],
     ajax: "{{ route('admin.places.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'judet_denj', name: 'judet.denj' },
-{ data: 'denloc', name: 'denloc' },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+        { data: 'placeholder', name: 'placeholder' },
+        { data: 'id', name: 'id' },
+        { data: 'judet_denj', name: 'judet.denj' },
+        { data: 'denloc', name: 'denloc' },
+        { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
     order: [[ 2, 'asc' ]],
-    pageLength: 25,
+    pageLength: 100,
   };
   let table = $('.datatable-Place').DataTable(dtOverrideGlobals);
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){

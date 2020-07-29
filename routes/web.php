@@ -1,6 +1,11 @@
 <?php
-Route::get('/test', 'HomeController@test');
-Route::redirect('/', '/login');
+
+Route::apiResource('/test', 'Api\V1\Admin\AtestatApiController');
+
+
+
+// Route::get('/test', 'HomeController@test');
+// Route::redirect('/', '/login');
 Route::get('/home', function () {
     if (session('status')) {
         return redirect()->route('admin.home')->with('status', session('status'));
@@ -39,6 +44,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Places
     Route::delete('places/destroy', 'PlaceController@massDestroy')->name('places.massDestroy');
     Route::resource('places', 'PlaceController');
+    Route::post('places/ajax_data', 'PlaceController@ajax_call')->name('places.get_ajax');
 
     // Categories
     Route::delete('categories/destroy', 'CategoryController@massDestroy')->name('categories.massDestroy');

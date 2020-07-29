@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder
                 'email'          => 'seller@mail.com',
                 'password'       => '$2y$10$NHBMXJhjddkIfG4dxS7BGemUVumsayvb1Za7jyH/CRFHJjEiYfiNC',
                 'remember_token' => null,
-                'approved'       => 2,
+                'approved'       => 1,
                 'phone'          => '0700000001',
             ],
             [
@@ -32,11 +32,12 @@ class UsersTableSeeder extends Seeder
                 'email'          => 'buyer@mail.com',
                 'password'       => '$2y$10$NHBMXJhjddkIfG4dxS7BGemUVumsayvb1Za7jyH/CRFHJjEiYfiNC',
                 'remember_token' => null,
-                'approved'       => 3,
+                'approved'       => 1,
                 'phone'          => '0700000002',
             ],
         ];
 
         User::insert($users);
+
     }
 }
